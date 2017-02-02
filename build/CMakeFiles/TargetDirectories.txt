@@ -1,0 +1,4 @@
+/home/benjamin/Documents/git/cubeRotation/build/CMakeFiles/edit_cache.dir
+/home/benjamin/Documents/git/cubeRotation/build/CMakeFiles/rebuild_cache.dir
+/home/benjamin/Documents/git/cubeRotation/build/CMakeFiles/cubeRotation.dir
+/home/benjamin/Documents/git/cubeRotation/build/CMakeFiles/cubeRotation_automoc.dir
