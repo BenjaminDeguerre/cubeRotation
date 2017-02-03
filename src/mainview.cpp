@@ -25,11 +25,10 @@ MainView::~MainView() {
 }
 
 void MainView::timerUpdate() {
-    //paintGL();
+
     if(rotation){
-        modelCube.translate(this->tMoins);
-        modelCube.rotate(this->angle, this->axis);
-        modelCube.translate(this->tPlus);
+
+        modelCube = rotationMatrix * modelCube;
         count--;
         if(count < 0){
             count = 0;
@@ -50,7 +49,7 @@ void MainView::setRotation(float b1, float b2, float b3, float d1, float d2, flo
         positionDataLine[5] = b3 + 2 * d3;
         vaoHandle[1].bind();
         vboHandles[2].bind();
-        vboHandles[2].write(0,positionDataLine,sizeof(positionDataLine));
+        vboHandles[2].allocate(positionDataLine,sizeof(positionDataLine));
         vboHandles[2].release();
         vaoHandle[1].release();
 
@@ -71,6 +70,11 @@ void MainView::setRotation(float b1, float b2, float b3, float d1, float d2, flo
         this->axis.setY(d2);
         this->axis.setZ(d3);
         this->angle = angleSign;
+
+        rotationMatrix.setToIdentity();
+        rotationMatrix.translate(this->tMoins);
+        rotationMatrix.rotate(this->angle, this->axis);
+        rotationMatrix.translate(this->tPlus);
     }
 }
 
@@ -203,7 +207,17 @@ void MainView::paintGL() {
     glDrawArrays(GL_TRIANGLES, 0, 36);
     program->release();
     vaoHandle[0].release();
-    update();
+
+    vaoHandle[1].bind();
+    program->bind();
+
+    QMatrix4x4 mvp2 =  projection * view;
+    program->setUniformValue(posModelViewMatrix, view);
+    program->setUniformValue(posMVP, mvp2);
+    glDrawArrays(GL_LINES, 0, 2);
+    program->release();
+    vaoHandle[1].release();
+//    update();
 }
 
 void MainView::resizeGL(int w, int h ) {

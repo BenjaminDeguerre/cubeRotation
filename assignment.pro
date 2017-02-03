@@ -8,7 +8,7 @@ QT       += core gui opengl
 
 greaterThan(QT_MAJOR_VERSION, 5): QT += widgets
 
-TARGET = assignment
+TARGET = cubeRotation
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
