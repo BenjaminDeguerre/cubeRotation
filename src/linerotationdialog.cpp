@@ -5,6 +5,8 @@
 #include <cstdio>
 #include <cstdlib>
 
+#include <QThread>
+#include <QTime>
 #include <iostream>
 
 
@@ -32,6 +34,9 @@ void lineRotationDialog::on_pushButton_clicked()
     float angle = ui->lineEdit_7->text().toFloat();
 
     this->hide();
-    view->rotate(b1,  b2,  b3,  d1,  d2,  d3, angle);
+
+    view->setRotation(b1,  b2,  b3,  d1,  d2,  d3, angle);
+
     this->done(0);
+
 }

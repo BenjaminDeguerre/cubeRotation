@@ -1,8 +1,6 @@
 #include "viewpositiondialog.hpp"
 #include "ui_viewpositiondialog.h"
 #include "mainview.hpp"
-#include "glm/gtc/matrix_transform.hpp"
-#include <iostream>
 
 viewPositionDialog::viewPositionDialog(QWidget *parent, MainView *view) :
     QDialog(parent),
@@ -26,8 +24,10 @@ void viewPositionDialog::on_pushButton_clicked()
     float directy = ui->lineEdit_5->text().toFloat();
     float directz = ui->lineEdit_6->text().toFloat();
 
-    view->setView(glm::lookAt(glm::vec3(eyex, eyey, eyez),
-                              glm::vec3(eyex + directx, eyey + directy, eyez + directz),
-                              glm::vec3(0.0f,1.0f,0.0f)));
+    QMatrix4x4 mview;
+    mview.lookAt(QVector3D(eyex, eyey, eyez),
+                 QVector3D(eyex + directx, eyey + directy, eyez + directz),
+                 QVector3D(0.0,1.0,0.0));
+    view->setView(mview);
     this->done(0);
 }

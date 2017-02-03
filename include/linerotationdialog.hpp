@@ -22,7 +22,6 @@ private slots:
 
 private:
     Ui::lineRotationDialog *ui;
-
     MainView *view;
 };
 

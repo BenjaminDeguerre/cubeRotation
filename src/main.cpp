@@ -10,9 +10,6 @@
 #include <QMenuBar>
 #include <QMainWindow>
 #include <QSurfaceFormat>
-#include <iostream>
-
-using namespace std;
 
 int main(int argc, char *argv[])
 {
@@ -20,13 +17,12 @@ int main(int argc, char *argv[])
     MainWindow *window = new MainWindow();
 
 
-
-    // The main window
     QWidget* win = new QWidget(window);
 
     QSurfaceFormat format;
     format.setVersion(4,2);
     format.setProfile(QSurfaceFormat::CoreProfile);
+
     MainView *glView = new MainView(window);
     glView->setFormat(format);
     window->setView(glView);

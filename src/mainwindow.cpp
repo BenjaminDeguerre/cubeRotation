@@ -1,6 +1,5 @@
 #include "mainwindow.hpp"
 #include "ui_mainwindow.h"
-#include "glm/gtc/matrix_transform.hpp"
 #include "linerotationdialog.hpp"
 #include "viewpositiondialog.hpp"
 
@@ -14,7 +13,6 @@ MainWindow::MainWindow(QWidget *parent) :
 void MainWindow::setView(MainView *view)
 {
     this->view = view;
-    //this->view->initializeGL();
 }
 
 MainWindow::~MainWindow()
@@ -38,5 +36,7 @@ void MainWindow::on_actionSetView_triggered()
 
 void MainWindow::on_actionSetDefaultView_triggered()
 {
-    view->setView(glm::lookAt(glm::vec3(0.0f,0.0f,2.0f), glm::vec3(0.0f,0.0f,-1.0f), glm::vec3(0.0f,1.0f,0.0f)));
+    QMatrix4x4 m_view;
+    m_view.lookAt(QVector3D(0.0,0.0,2.0), QVector3D(0.0f,0.0f,-1.0f), QVector3D(0.0f,1.0f,0.0f));
+    view->setView(m_view);
 }

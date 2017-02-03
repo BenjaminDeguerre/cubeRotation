@@ -32,27 +32,37 @@ private:
     int posVertexColor;
     int posModelViewMatrix;
     int posMVP;
+    int width;
+    int height;
+    int c;
+    float count;
 
-    int width, height;
+    QTimer *timer;
 
-    glm::mat4 rotationMatrix;
-    glm::mat4 modelCube;
-    glm::mat4 view;
-    glm::mat4 projection;
+    QWidget *parent;
+
+    QMatrix4x4 rotationMatrix;
+    QMatrix4x4 modelCube;
+    QMatrix4x4 view;
+    QMatrix4x4 projection;
 
     QOpenGLShaderProgram *program;
 
-    QTimer *timer;
-    Scene *scene;
+    bool rotation;
     float angle;
-    glm::vec3 axis;
+
+    QVector3D tPlus;
+    QVector3D tMoins;
+    QVector3D axis;
+
 
 public:
     MainView(QWidget *parent = 0 );
-    
-    void setView(glm::mat4 mview);
+    ~MainView();
+    void setView(QMatrix4x4 mview);
     void rotate(float b1, float b2, float b3, float d1, float d2, float d3, float angle);
     void initializeGL();
+    void setRotation(float b1, float b2, float b3, float d1, float d2, float d3, float angle);
 
 protected:
 
@@ -62,8 +72,6 @@ protected:
 
 public slots:
     void timerUpdate();
-    void toggleAnimation();
-    void takeScreenShot();
 };
 
 #endif // MAINVIEW_H
