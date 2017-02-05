@@ -31,7 +31,6 @@ private:
     float count;
     bool rotation;
 
-
     QMatrix4x4 rotationMatrix;
     QMatrix4x4 modelCube;
     QMatrix4x4 view;
