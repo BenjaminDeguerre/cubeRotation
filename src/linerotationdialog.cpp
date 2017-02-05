@@ -1,14 +1,5 @@
 #include "linerotationdialog.hpp"
 #include "ui_linerotationdialog.h"
-#include "mainview.hpp"
-#include "glm/gtc/matrix_transform.hpp"
-#include <cstdio>
-#include <cstdlib>
-
-#include <QThread>
-#include <QTime>
-#include <iostream>
-
 
 lineRotationDialog::lineRotationDialog(QWidget *parent, MainView *view):
     QDialog(parent),

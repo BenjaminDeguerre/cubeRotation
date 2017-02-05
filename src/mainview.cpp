@@ -1,27 +1,29 @@
 #include "mainview.hpp"
 
-#include <QThread>
-
 #include <fstream>
 #include <iostream>
-#include <cstdio>
-
-const double PI = 4.0*atan(1.0);
 
 MainView::MainView(QWidget *parent) : QOpenGLWidget(parent)
 {
     this->setFocusPolicy(Qt::ClickFocus);
     program = new QOpenGLShaderProgram(this);
-    timer = new QTimer(this);
+
+    timer = new QTimer(this); //Creating timer for update
     connect(timer, SIGNAL(timeout()), this, SLOT(timerUpdate()));
     timer->start(50);
 }
 
 MainView::~MainView() {
+
     delete program;
 
-    vaoHandle[0].destroy();
-    vaoHandle[1].destroy();
+    for (int i = 0 ; i < 2 ; i++) {
+        vaoHandle[i].destroy();
+    }
+
+    for (int i = 0 ; i < 4 ; i++) {
+        vboHandles[i].destroy();
+    }
 }
 
 void MainView::timerUpdate() {
@@ -105,38 +107,18 @@ void MainView::initializeGL() {
     this->loadCube();
     initializeOpenGLFunctions();
 
-    program->addShaderFromSourceCode(QOpenGLShader::Vertex,"#version 400\n"
-                                   "in vec3 VertexPosition;\n"
-                                   "in vec3 VertexColor;\n"
-                                   "out vec3 Color;\n"
-                                   "uniform mat4 ModelViewMatrix;"
-                                   "uniform mat4 MVP;\n"
-                                   "void main()\n"
-                                   "{\n"
-                                   "Color = VertexColor;\n"
-                                   "gl_Position = MVP * vec4(VertexPosition,1.0);\n"
-                                   "}\n");
-
-    program->addShaderFromSourceCode(QOpenGLShader::Fragment,"#version 330\n"
-                                                             "in vec3 Color;\n"
-                                                             "out vec4 FragColor;\n"
-                                                             "void main() {\n"
-                                                             "FragColor = vec4(Color, 1.0);\n"
-                                                             "}\n");
-
+    program->addShaderFromSourceFile(QOpenGLShader::Vertex,"../../shader/basic.vert");
+    program->addShaderFromSourceFile(QOpenGLShader::Fragment,"../../shader/basic.frag");
 
     program->link();
 
-    vaoHandle[0].create();
-    if (vaoHandle[0].isCreated()){
-        vaoHandle[0].bind();
-    }
-
-
+    //First set of vbo for the cube
+    vaoHandle[0].create(); //Might want to check if created for each vao/vbo
+    vaoHandle[0].bind();
     program->bind();
+
     posVertexPosition = program->attributeLocation("VertexPosition");
     posVertexColor = program->attributeLocation("VertexColor");
-    posModelViewMatrix = program->uniformLocation("ModelViewMatrix");
     posMVP = program->uniformLocation("MVP");
 
     vboHandles[0].create();
@@ -155,17 +137,12 @@ void MainView::initializeGL() {
     program->setAttributeBuffer(posVertexColor, GL_FLOAT, 0, 3);
     vboHandles[1].release();
 
-
     program->release();
-
     vaoHandle[0].release();
 
+    //Second for the line
     vaoHandle[1].create();
-    if (vaoHandle[1].isCreated()){
-        vaoHandle[1].bind();
-    }
-
-
+    vaoHandle[1].bind();
     program->bind();
 
     vboHandles[2].create();
@@ -187,7 +164,6 @@ void MainView::initializeGL() {
     program->release();
     vaoHandle[1].release();
 
-
     view.lookAt(QVector3D(2.0f,2.0f,2.0f), QVector3D(-2.0f,-2.0f,-2.0f), QVector3D(0.0f,1.0f,0.0f));
     glClearColor(0, 0, 0, 1);
     glEnable(GL_DEPTH_TEST);
@@ -196,14 +172,12 @@ void MainView::initializeGL() {
 void MainView::paintGL() {
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    QMatrix4x4 mv =  view * modelCube;
+    QMatrix4x4 vm =  view * modelCube;
     vaoHandle[0].bind();
     program->bind();
 
-    QMatrix4x4 mvq = mv;
-    QMatrix4x4 mvp =  projection * mv;
-    program->setUniformValue(posModelViewMatrix, mvq);
-    program->setUniformValue(posMVP, mvp);
+    QMatrix4x4 pvm =  projection * vm;
+    program->setUniformValue(posMVP, pvm);
     glDrawArrays(GL_TRIANGLES, 0, 36);
     program->release();
     vaoHandle[0].release();
@@ -211,13 +185,11 @@ void MainView::paintGL() {
     vaoHandle[1].bind();
     program->bind();
 
-    QMatrix4x4 mvp2 =  projection * view;
-    program->setUniformValue(posModelViewMatrix, view);
-    program->setUniformValue(posMVP, mvp2);
+    QMatrix4x4 pvm2 =  projection * view;
+    program->setUniformValue(posMVP, pvm2);
     glDrawArrays(GL_LINES, 0, 2);
     program->release();
     vaoHandle[1].release();
-//    update();
 }
 
 void MainView::resizeGL(int w, int h ) {

@@ -1,6 +1,5 @@
 #include "viewpositiondialog.hpp"
 #include "ui_viewpositiondialog.h"
-#include "mainview.hpp"
 
 viewPositionDialog::viewPositionDialog(QWidget *parent, MainView *view) :
     QDialog(parent),

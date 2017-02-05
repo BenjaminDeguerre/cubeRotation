@@ -1,10 +1,9 @@
 #ifndef VIEWPOSITIONDIALOG_H
 #define VIEWPOSITIONDIALOG_H
 
-#include "mainview.hpp"
-
 #include <QDialog>
 
+#include "mainview.hpp"
 
 namespace Ui {
 class viewPositionDialog;

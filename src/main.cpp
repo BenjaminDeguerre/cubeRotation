@@ -3,12 +3,7 @@
 
 #include <QApplication>
 #include <QWidget>
-#include <QHBoxLayout>
 #include <QVBoxLayout>
-#include <QAction>
-#include <QMenu>
-#include <QMenuBar>
-#include <QMainWindow>
 #include <QSurfaceFormat>
 
 int main(int argc, char *argv[])
@@ -20,8 +15,8 @@ int main(int argc, char *argv[])
     QWidget* win = new QWidget(window);
 
     QSurfaceFormat format;
-    format.setVersion(4,2);
-    format.setProfile(QSurfaceFormat::CoreProfile);
+    format.setVersion(4,2); //To change depending on the openGL to use
+    format.setProfile(QSurfaceFormat::CoreProfile); //Same
 
     MainView *glView = new MainView(window);
     glView->setFormat(format);

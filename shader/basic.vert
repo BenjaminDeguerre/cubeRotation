@@ -1,11 +1,10 @@
-#version 100
+#version 400
 
 in vec3 VertexPosition;
 in vec3 VertexColor;
 
-varying out vec3 Color;
+out vec3 Color;
 
-uniform mat4 ModelViewMatrix;
 uniform mat4 MVP;
 
 void main()

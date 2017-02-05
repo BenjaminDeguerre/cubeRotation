@@ -8,17 +8,13 @@
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLBuffer>
 
-#include "glm/glm.hpp"
-
-#include "scene.hpp"
-
 class MainView : public QOpenGLWidget, protected QOpenGLFunctions_4_2_Core
 {
     Q_OBJECT
 
 private:
+
     void loadCube();
-    void CreateVBO();
 
     GLfloat positionDataCube[108];
     GLfloat colorDataCube[108];
@@ -30,11 +26,11 @@ private:
 
     int posVertexPosition;
     int posVertexColor;
-    int posModelViewMatrix;
     int posMVP;
+
     int width;
     int height;
-    int c;
+
     float count;
 
     QTimer *timer;
