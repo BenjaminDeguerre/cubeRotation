@@ -16,6 +16,7 @@ MainView::MainView(QWidget *parent) : QOpenGLWidget(parent)
 MainView::~MainView() {
 
     delete program;
+    delete timer;
 
     for (int i = 0 ; i < 2 ; i++) {
         vaoHandle[i].destroy();
@@ -28,8 +29,8 @@ MainView::~MainView() {
 
 void MainView::timerUpdate() {
 
+    //rotation are not queued the new one will erase the previous
     if(rotation){
-
         modelCube = rotationMatrix * modelCube;
         count--;
         if(count < 0){
@@ -41,42 +42,40 @@ void MainView::timerUpdate() {
 }
 
 void MainView::setRotation(float b1, float b2, float b3, float d1, float d2, float d3, float angle){
-    if (!((d1 == d2) && (d2 == d3) && (d3 == 0))) {
 
+    //if axis
+    if (!((d1 == d2) && (d2 == d3) && (d3 == 0))) {
+        //updating the rotation axis
         positionDataLine[0] = b1 - 2 *d1;
         positionDataLine[1] = b2 - 2 *d2;
         positionDataLine[2] = b3 - 2 *d3;
         positionDataLine[3] = b1 + 2 * d1;
         positionDataLine[4] = b2 + 2 * d2;
         positionDataLine[5] = b3 + 2 * d3;
+
+        //writing to the vao
         vaoHandle[1].bind();
         vboHandles[2].bind();
         vboHandles[2].allocate(positionDataLine,sizeof(positionDataLine));
         vboHandles[2].release();
         vaoHandle[1].release();
 
+        //To set the rotation matrix to one degree in the rigth way
         int angleSign = (angle > 0)-(angle < 0);
 
+        //Setting the boolean value for the update
         this->rotation = true;
-        this->count = angle * angleSign;
+        this->count = angle * angleSign; //count must be positive
 
-        this->tPlus.setX(b1);
-        this->tPlus.setY(b2);
-        this->tPlus.setZ(b3);
+        QVector3D tPlus(b1,b2,b3);
+        QVector3D tMoins(-b1,-b2,-b3);
+        QVector3D axis(d1,d2,d3);
 
-        this->tMoins.setX(-b1);
-        this->tMoins.setY(-b2);
-        this->tMoins.setZ(-b3);
-
-        this->axis.setX(d1);
-        this->axis.setY(d2);
-        this->axis.setZ(d3);
-        this->angle = angleSign;
-
+        //creating rotation matrix
         rotationMatrix.setToIdentity();
-        rotationMatrix.translate(this->tMoins);
-        rotationMatrix.rotate(this->angle, this->axis);
-        rotationMatrix.translate(this->tPlus);
+        rotationMatrix.translate(tMoins);
+        rotationMatrix.rotate(angleSign, axis);
+        rotationMatrix.translate(tPlus);
     }
 }
 
@@ -111,11 +110,11 @@ void MainView::initializeGL() {
     program->addShaderFromSourceFile(QOpenGLShader::Fragment,"../../shader/basic.frag");
 
     program->link();
+    program->bind();
 
     //First set of vbo for the cube
     vaoHandle[0].create(); //Might want to check if created for each vao/vbo
     vaoHandle[0].bind();
-    program->bind();
 
     posVertexPosition = program->attributeLocation("VertexPosition");
     posVertexColor = program->attributeLocation("VertexColor");
@@ -137,13 +136,11 @@ void MainView::initializeGL() {
     program->setAttributeBuffer(posVertexColor, GL_FLOAT, 0, 3);
     vboHandles[1].release();
 
-    program->release();
     vaoHandle[0].release();
 
     //Second for the line
     vaoHandle[1].create();
     vaoHandle[1].bind();
-    program->bind();
 
     vboHandles[2].create();
     vboHandles[2].setUsagePattern(QOpenGLBuffer::DynamicDraw);
@@ -161,9 +158,9 @@ void MainView::initializeGL() {
     program->setAttributeBuffer(posVertexColor, GL_FLOAT, 0, 3);
     vboHandles[3].release();
 
-    program->release();
     vaoHandle[1].release();
 
+    program->release();
     view.lookAt(QVector3D(2.0f,2.0f,2.0f), QVector3D(-2.0f,-2.0f,-2.0f), QVector3D(0.0f,1.0f,0.0f));
     glClearColor(0, 0, 0, 1);
     glEnable(GL_DEPTH_TEST);
@@ -172,36 +169,33 @@ void MainView::initializeGL() {
 void MainView::paintGL() {
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    QMatrix4x4 vm =  view * modelCube;
-    vaoHandle[0].bind();
-    program->bind();
 
-    QMatrix4x4 pvm =  projection * vm;
-    program->setUniformValue(posMVP, pvm);
+    program->bind();
+    vaoHandle[0].bind();
+
+    program->setUniformValue(posMVP, projection * view * modelCube);
     glDrawArrays(GL_TRIANGLES, 0, 36);
-    program->release();
+
     vaoHandle[0].release();
 
     vaoHandle[1].bind();
-    program->bind();
 
-    QMatrix4x4 pvm2 =  projection * view;
-    program->setUniformValue(posMVP, pvm2);
+    program->setUniformValue(posMVP, projection * view);
     glDrawArrays(GL_LINES, 0, 2);
-    program->release();
+
     vaoHandle[1].release();
+    program->release();
 }
 
 void MainView::resizeGL(int w, int h ) {
+
     glViewport(0,0,w,h);
-    width = w;
-    height = h;
     projection.setToIdentity();
     projection.perspective(30, (float)w/h, 0.3f, 30.0f);
 }
 
-void MainView::setView(QMatrix4x4 mview)
-{
+void MainView::setView(QMatrix4x4 mview) {
+
     view = mview;
-    paintGL();
+    update();
 }

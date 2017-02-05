@@ -28,29 +28,17 @@ private:
     int posVertexColor;
     int posMVP;
 
-    int width;
-    int height;
-
     float count;
+    bool rotation;
 
-    QTimer *timer;
-
-    QWidget *parent;
 
     QMatrix4x4 rotationMatrix;
     QMatrix4x4 modelCube;
     QMatrix4x4 view;
     QMatrix4x4 projection;
 
+    QTimer *timer;
     QOpenGLShaderProgram *program;
-
-    bool rotation;
-    float angle;
-
-    QVector3D tPlus;
-    QVector3D tMoins;
-    QVector3D axis;
-
 
 public:
     MainView(QWidget *parent = 0 );
@@ -61,8 +49,6 @@ public:
     void setRotation(float b1, float b2, float b3, float d1, float d2, float d3, float angle);
 
 protected:
-
-    QOpenGLContext *m_context;
     void paintGL();
     void resizeGL(int w, int h);
 
