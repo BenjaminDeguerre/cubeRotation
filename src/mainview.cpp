@@ -80,7 +80,7 @@ void MainView::setRotation(float b1, float b2, float b3, float d1, float d2, flo
 }
 
 void MainView::loadCube() {
-    std::ifstream ifs("../../data/sceneCube.dat");
+    std::ifstream ifs("data/sceneCube.dat");
 
     if (!ifs) {
         std::cout << "data file not found\n";
@@ -106,8 +106,8 @@ void MainView::initializeGL() {
     this->loadCube();
     initializeOpenGLFunctions();
 
-    program->addShaderFromSourceFile(QOpenGLShader::Vertex,"../../shader/basic.vert");
-    program->addShaderFromSourceFile(QOpenGLShader::Fragment,"../../shader/basic.frag");
+    program->addShaderFromSourceFile(QOpenGLShader::Vertex,"shader/basic.vert");
+    program->addShaderFromSourceFile(QOpenGLShader::Fragment,"shader/basic.frag");
 
     program->link();
     program->bind();
