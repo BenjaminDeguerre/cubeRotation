@@ -36,4 +36,11 @@ Makefile*
 
 # QtCtreator CMake
 CMakeLists.txt.user
+CMakeCache.txt
+CMakeFiles/*
+bin/*
+moc*
 
+.vscode/*
+
+*.cmake
