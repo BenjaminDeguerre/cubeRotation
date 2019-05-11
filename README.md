@@ -8,6 +8,12 @@ It was build using Qt 5.7.0 and using Opengl core 4.2. To run it using other ver
 
 The program can be built in two different ways. Either using the .pro file and QTCreator, in which case the data folder and the shader folder will need to be moved to the build directory or with cmake.
 
+```bash
+cmake .
+make
+./bin/cubeRotation
+```
+
 ## What is what
 
 ### The data folder

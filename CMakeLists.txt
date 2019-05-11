@@ -37,7 +37,7 @@ qt5_wrap_ui(UIS_HDRS
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 
 # Tell CMake to create the helloworld executable
-add_executable(helloworld ${SRCS} ${UIS_HDRS} ${SRC})
+add_executable(cubeRotation ${SRCS} ${UIS_HDRS} ${SRC})
 
 # Use the Widgets module from Qt 5
-target_link_libraries(helloworld Qt5::Widgets)
+target_link_libraries(cubeRotation Qt5::Widgets)
