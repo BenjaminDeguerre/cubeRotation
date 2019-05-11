@@ -127,7 +127,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>b1</string>
+    <string>offset_x</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_2">
@@ -140,7 +140,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>b2</string>
+    <string>offset_y</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_3">
@@ -153,7 +153,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>b3</string>
+    <string>offset_z</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_4">
@@ -162,11 +162,11 @@
      <x>110</x>
      <y>70</y>
      <width>47</width>
-     <height>13</height>
+     <height>16</height>
     </rect>
    </property>
    <property name="text">
-    <string>d2</string>
+    <string>y</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_5">
@@ -179,7 +179,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>d1</string>
+    <string>x</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_6">
@@ -192,7 +192,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>d3</string>
+    <string>z</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_8">

@@ -110,11 +110,11 @@
      <x>110</x>
      <y>40</y>
      <width>47</width>
-     <height>13</height>
+     <height>16</height>
     </rect>
    </property>
    <property name="text">
-    <string>ey</string>
+    <string>eye_y</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_2">
@@ -127,7 +127,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>ez</string>
+    <string>eye_z</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_3">
@@ -140,7 +140,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>ex</string>
+    <string>eye_x</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_4">
@@ -148,12 +148,12 @@
     <rect>
      <x>30</x>
      <y>100</y>
-     <width>47</width>
-     <height>13</height>
+     <width>61</width>
+     <height>16</height>
     </rect>
    </property>
    <property name="text">
-    <string>dx</string>
+    <string>center_x</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_5">
@@ -161,12 +161,12 @@
     <rect>
      <x>190</x>
      <y>100</y>
-     <width>47</width>
-     <height>13</height>
+     <width>61</width>
+     <height>16</height>
     </rect>
    </property>
    <property name="text">
-    <string>dz</string>
+    <string>center_z</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_6">
@@ -174,12 +174,12 @@
     <rect>
      <x>110</x>
      <y>100</y>
-     <width>47</width>
-     <height>13</height>
+     <width>61</width>
+     <height>16</height>
     </rect>
    </property>
    <property name="text">
-    <string>dy</string>
+    <string>center_y</string>
    </property>
   </widget>
  </widget>
